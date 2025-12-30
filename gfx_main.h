@@ -11,6 +11,7 @@
 #include <stdint.h>
 
 #include "win_main.h"
+#include "gfx_error.h"
 
 
 #define PAINTER_DEF_BIT_COUNT           32
@@ -24,7 +25,7 @@
 typedef uint32_t pixel;
 
 
-union color32
+typedef union color32
 {
 
         uint32_t argb;
@@ -32,7 +33,7 @@ union color32
 
         struct { uint8_t b, g, r, a; };
 
-};
+} color32;
 
 
 struct painter
@@ -49,11 +50,11 @@ struct painter
 };
 
 
-void painter_hire(struct painter* painter);
-void painter_fire(struct painter* painter);
+enum gfx_error  painter_hire(struct painter* painter);
+void            painter_fire(struct painter* painter);
 
 
-static inline void painter_present(struct painter* painter, struct window* window, union color32 clear_color)
+static inline void painter_present(struct painter* painter, struct window* window, color32 clear_color)
 {
 
         StretchDIBits
@@ -68,6 +69,7 @@ static inline void painter_present(struct painter* painter, struct window* windo
         );
 
 
+        // !REMINDER: swap for SIMD filling later
         for (int i = 0; i < painter->painters_size; i++)
         {
 

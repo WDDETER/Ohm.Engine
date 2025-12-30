@@ -11,6 +11,8 @@
 #include <windows.h>
 #include <stdbool.h>
 
+#include "win_error.h"
+
 
 #define WINDOW_DEF_NAME         "Ohm Engine: Windows Application"
 #define WINDOW_DEF_CLASS_NAME   "Ohm Engine: Windows Class"

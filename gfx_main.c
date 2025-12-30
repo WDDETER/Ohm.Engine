@@ -7,10 +7,9 @@
 #include <stdlib.h>
 
 #include "gfx_main.h"
-#include "gfx_error.h"
 
 
-enum painter_error painter_hire(struct painter* painter)
+enum gfx_error painter_hire(struct painter* painter)
 {
 
         if (!painter)
