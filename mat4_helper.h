@@ -9,6 +9,7 @@
 
 
 #include "vec4_helper.h"
+#include "vec3_helper.h"
 
 
 // NOTICE!
@@ -17,6 +18,8 @@
 //      matrices. Ohm Engine uses row-major matrices, it's just easier for me.
 //
 
+
+#define MAT4_MULITPLY_ORDER(x, y, z) mat4f_mul_mat4f(x, mat4f_mul_mat4f(y, z));
 
 #define MAT4_SIZE 16
 
@@ -40,7 +43,13 @@ typedef union mat4f
 } mat4f;
 
 
-static inline mat4f mat4_identity(void)
+mat4f mat4f_mul_mat4f           (mat4f mat1, mat4f mat2);
+mat4f mat4f_cam_lookat          (vec3f forward, vec3f right, vec3f up, vec3f eye, vec3f target);
+mat4f mat4f_proj_perspective    (float fov_rad, float aspect, float near_z, float far_z);
+vec4f vec4f_mul_mat4f           (vec4f vec, mat4f mat);
+
+
+static inline mat4f mat4f_identity(void)
 {
 
         return (mat4f)
@@ -56,7 +65,7 @@ static inline mat4f mat4_identity(void)
 }
 
 
-static inline mat4f mat4_translate(float x, float y, float z)
+static inline mat4f mat4f_translate(float x, float y, float z)
 {
 
         return (mat4f)
@@ -72,7 +81,7 @@ static inline mat4f mat4_translate(float x, float y, float z)
 }
 
 
-static inline mat4f mat4_scale(float x, float y, float z)
+static inline mat4f mat4f_scale(float x, float y, float z)
 {
 
         return (mat4f)
@@ -88,7 +97,7 @@ static inline mat4f mat4_scale(float x, float y, float z)
 }
 
 
-static inline mat4f mat4_rotate_x(float x)
+static inline mat4f mat4f_rotate_x(float x)
 {
 
         float cos = cosf(x);
@@ -107,7 +116,7 @@ static inline mat4f mat4_rotate_x(float x)
 }
 
 
-static inline mat4f mat4_rotate_y(float y)
+static inline mat4f mat4f_rotate_y(float y)
 {
 
         float cos = cosf(y);
@@ -126,7 +135,7 @@ static inline mat4f mat4_rotate_y(float y)
 }
 
 
-static inline mat4f mat4_rotate_z(float z)
+static inline mat4f mat4f_rotate_z(float z)
 {
 
         float cos = cosf(z);
@@ -143,10 +152,6 @@ static inline mat4f mat4_rotate_z(float z)
         };
 
 }
-
-
-mat4f mat4_mul_mat4(mat4f mat1, mat4f mat2);
-vec4f vec4_mul_mat4(vec4f vec, mat4f mat);
 
 
 #endif

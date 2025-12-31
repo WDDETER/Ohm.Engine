@@ -13,7 +13,7 @@
 #include "vec_types.h"
 
 
-static inline vec2f vec2_add(vec2f vec1, vec2f vec2)
+static inline vec2f vec2f_add(vec2f vec1, vec2f vec2)
 {
 
         return (vec2f)
@@ -27,7 +27,7 @@ static inline vec2f vec2_add(vec2f vec1, vec2f vec2)
 }
 
 
-static inline vec2f vec2_sub(vec2f vec1, vec2f vec2)
+static inline vec2f vec2f_sub(vec2f vec1, vec2f vec2)
 {
 
         return (vec2f)
@@ -41,7 +41,7 @@ static inline vec2f vec2_sub(vec2f vec1, vec2f vec2)
 }
 
 
-static inline vec2f vec2_mul_component(vec2f vec1, vec2f vec2)
+static inline vec2f vec2f_mul_component(vec2f vec1, vec2f vec2)
 {
 
          return (vec2f)
@@ -55,7 +55,7 @@ static inline vec2f vec2_mul_component(vec2f vec1, vec2f vec2)
 }
 
 
-static inline vec2f vec2_mul_scalar(vec2f vec1, float scalar)
+static inline vec2f vec2f_mul_scalar(vec2f vec1, float scalar)
 {
 
          return (vec2f)
@@ -69,7 +69,7 @@ static inline vec2f vec2_mul_scalar(vec2f vec1, float scalar)
 }
 
 
-static inline vec2f vec2_div_component(vec2f vec1, vec2f vec2)
+static inline vec2f vec2f_div_component(vec2f vec1, vec2f vec2)
 {
 
          return (vec2f)
@@ -83,7 +83,7 @@ static inline vec2f vec2_div_component(vec2f vec1, vec2f vec2)
 }
 
 
-static inline vec2f vec2_div_scalar(vec2f vec1, float scalar)
+static inline vec2f vec2f_div_scalar(vec2f vec1, float scalar)
 {
 
          return (vec2f)
@@ -97,7 +97,7 @@ static inline vec2f vec2_div_scalar(vec2f vec1, float scalar)
 }
 
 
-static inline float vec2_length(vec2f vec)
+static inline float vec2f_length(vec2f vec)
 {
 
         return sqrtf(vec.x * vec.x + vec.y * vec.y);
@@ -105,7 +105,7 @@ static inline float vec2_length(vec2f vec)
 }
 
 
-static inline float vec2_length_squared(vec2f vec)
+static inline float vec2f_length_squared(vec2f vec)
 {
 
         return vec.x * vec.x + vec.y * vec.y;
@@ -113,10 +113,10 @@ static inline float vec2_length_squared(vec2f vec)
 }
 
 
-static inline vec2f vec2_unit(vec2f vec)
+static inline vec2f vec2f_unit(vec2f vec)
 {
 
-        float length = vec2_length_squared(vec);
+        float length = vec2f_length_squared(vec);
 
 
         if (length < 0.0001f)
@@ -129,12 +129,12 @@ static inline vec2f vec2_unit(vec2f vec)
         float inv_length = 1.0f / sqrtf(length);
 
 
-        return vec2_mul_scalar(vec, inv_length);
+        return vec2f_mul_scalar(vec, inv_length);
 
 }
 
 
-static inline float vec2_dot(vec2f vec1, vec2f vec2)
+static inline float vec2f_dot(vec2f vec1, vec2f vec2)
 {
 
         return vec1.x * vec2.x + vec1.y * vec2.y;
@@ -142,7 +142,7 @@ static inline float vec2_dot(vec2f vec1, vec2f vec2)
 }
 
 
-static inline vec4f vec2_to_vec4(vec2f vec)
+static inline vec4f vec2f_to_vec4f(vec2f vec)
 {
 
         return (vec4f)
@@ -158,7 +158,7 @@ static inline vec4f vec2_to_vec4(vec2f vec)
 }
 
 
-static inline vec3f vec2_to_vec3(vec2f vec)
+static inline vec3f vec2f_to_vec3f(vec2f vec)
 {
 
         return (vec3f)

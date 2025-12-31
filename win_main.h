@@ -47,7 +47,7 @@ struct window
         DWORD           style;
 
 
-        struct rare
+        struct
         {
 
                 HWND    parent_handle;

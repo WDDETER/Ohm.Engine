@@ -13,7 +13,7 @@
 #include "vec_types.h"
 
 
-static inline vec4f vec4_add(vec4f vec1, vec4f vec2) 
+static inline vec4f vec4f_add(vec4f vec1, vec4f vec2) 
 {
 
         return (vec4f)
@@ -29,7 +29,7 @@ static inline vec4f vec4_add(vec4f vec1, vec4f vec2)
 }
 
 
-static inline vec4f vec4_sub(vec4f vec1, vec4f vec2)
+static inline vec4f vec4f_sub(vec4f vec1, vec4f vec2)
 {
 
         return (vec4f)
@@ -45,7 +45,7 @@ static inline vec4f vec4_sub(vec4f vec1, vec4f vec2)
 }
 
 
-static inline vec4f vec4_mul_component(vec4f vec1, vec4f vec2)
+static inline vec4f vec4f_mul_component(vec4f vec1, vec4f vec2)
 {
 
          return (vec4f)
@@ -61,7 +61,7 @@ static inline vec4f vec4_mul_component(vec4f vec1, vec4f vec2)
 }
 
 
-static inline vec4f vec4_mul_scalar(vec4f vec1, float scalar)
+static inline vec4f vec4f_mul_scalar(vec4f vec1, float scalar)
 {
 
          return (vec4f)
@@ -77,7 +77,7 @@ static inline vec4f vec4_mul_scalar(vec4f vec1, float scalar)
 }
 
 
-static inline vec4f vec4_div_component(vec4f vec1, vec4f vec2)
+static inline vec4f vec4f_div_component(vec4f vec1, vec4f vec2)
 {
 
          return (vec4f)
@@ -93,7 +93,7 @@ static inline vec4f vec4_div_component(vec4f vec1, vec4f vec2)
 }
 
 
-static inline vec4f vec4_div_scalar(vec4f vec1, float scalar)
+static inline vec4f vec4f_div_scalar(vec4f vec1, float scalar)
 {
 
          return (vec4f)
@@ -109,7 +109,7 @@ static inline vec4f vec4_div_scalar(vec4f vec1, float scalar)
 }
 
 
-static inline float vec4_length(vec4f vec)
+static inline float vec4f_length(vec4f vec)
 {
 
         return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
@@ -117,7 +117,7 @@ static inline float vec4_length(vec4f vec)
 }
 
 
-static inline float vec4_length_squared(vec4f vec)
+static inline float vec4f_length_squared(vec4f vec)
 {
 
         return vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w;
@@ -125,10 +125,10 @@ static inline float vec4_length_squared(vec4f vec)
 }
 
 
-static inline vec4f vec4_unit(vec4f vec)
+static inline vec4f vec4f_unit(vec4f vec)
 {
 
-        float length = vec4_length_squared(vec);
+        float length = vec4f_length_squared(vec);
 
 
         if (length < 0.0001f)
@@ -141,19 +141,19 @@ static inline vec4f vec4_unit(vec4f vec)
         float inv_length = 1.0f / sqrtf(length);
 
 
-        return vec4_mul_scalar(vec, inv_length);
+        return vec4f_mul_scalar(vec, inv_length);
 
 }
 
 
-static inline float vec4_dot(vec4f vec1, vec4f vec2)
+static inline float vec4f_dot(vec4f vec1, vec4f vec2)
 {
 
         return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z + vec1.w * vec2.w;
 
 }
 
-static inline vec3f vec4_to_vec3(vec4f vec)
+static inline vec3f vec4f_to_vec3f(vec4f vec)
 {
 
         return (vec3f)
@@ -168,7 +168,7 @@ static inline vec3f vec4_to_vec3(vec4f vec)
 }
 
 
-static inline vec2f vec4_to_vec2(vec4f vec)
+static inline vec2f vec4f_to_vec2f(vec4f vec)
 {
 
         return (vec2f)

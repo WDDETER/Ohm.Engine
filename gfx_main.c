@@ -46,3 +46,51 @@ void painter_fire(struct painter* painter)
         painter->pixels = NULL;
 
 }
+
+
+//*     Might want to refine more later?
+//*     Copied from older project.
+void painter_line(struct painter* painter, int x1, int y1, int x2, int y2, color32i color)
+{
+
+        int diff_x = abs(x2 - x1);
+        int side_x = (x1 < x2) ? 1 : -1;
+        int diff_y = -abs(y2 - y1);
+        int side_y = (y1 < y2) ? 1 : -1;
+
+        int error = diff_x + diff_y;
+
+
+        while (true) 
+        {
+
+                painter->pixels[y1 * painter->pixels_width + x1] = (pixel)color.argb;
+
+
+                int error_mul_2 = error * 2;
+
+                if (error_mul_2 >= diff_y)
+                {
+
+                        if (x1 == x2) break;
+
+                        error += diff_y;
+                        x1 += side_x;
+
+                }
+
+                if (error_mul_2 <= diff_x)
+                {
+
+                        if (y1 == y2) break;
+
+
+                        error += diff_x;
+
+                        y1 += side_y;
+
+                }
+
+        }
+
+}

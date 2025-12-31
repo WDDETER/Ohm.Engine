@@ -25,7 +25,7 @@
 typedef uint32_t pixel;
 
 
-typedef union color32
+typedef union color32i
 {
 
         uint32_t argb;
@@ -33,7 +33,7 @@ typedef union color32
 
         struct { uint8_t b, g, r, a; };
 
-} color32;
+} color32i;
 
 
 struct painter
@@ -52,9 +52,10 @@ struct painter
 
 enum gfx_error  painter_hire(struct painter* painter);
 void            painter_fire(struct painter* painter);
+void            painter_line(struct painter* painter, int x1, int y1, int x2, int y2, color32i color);
 
 
-static inline void painter_present(struct painter* painter, struct window* window, color32 clear_color)
+static inline void painter_present(struct painter* painter, struct window* window, color32i clear_color)
 {
 
         StretchDIBits

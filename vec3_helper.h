@@ -13,7 +13,7 @@
 #include "vec_types.h"
 
 
-static inline vec3f vec3_add(vec3f vec1, vec3f vec2)
+static inline vec3f vec3f_add(vec3f vec1, vec3f vec2)
 {
 
         return (vec3f)
@@ -28,7 +28,7 @@ static inline vec3f vec3_add(vec3f vec1, vec3f vec2)
 }
 
 
-static inline vec3f vec3_sub(vec3f vec1, vec3f vec2)
+static inline vec3f vec3f_sub(vec3f vec1, vec3f vec2)
 {
 
         return (vec3f)
@@ -43,7 +43,7 @@ static inline vec3f vec3_sub(vec3f vec1, vec3f vec2)
 }
 
 
-static inline vec3f vec3_mul_component(vec3f vec1, vec3f vec2)
+static inline vec3f vec3f_mul_component(vec3f vec1, vec3f vec2)
 {
 
          return (vec3f)
@@ -58,7 +58,7 @@ static inline vec3f vec3_mul_component(vec3f vec1, vec3f vec2)
 }
 
 
-static inline vec3f vec3_mul_scalar(vec3f vec1, float scalar)
+static inline vec3f vec3f_mul_scalar(vec3f vec1, float scalar)
 {
 
          return (vec3f)
@@ -73,7 +73,7 @@ static inline vec3f vec3_mul_scalar(vec3f vec1, float scalar)
 }
 
 
-static inline vec3f vec3_div_component(vec3f vec1, vec3f vec2)
+static inline vec3f vec3f_div_component(vec3f vec1, vec3f vec2)
 {
 
          return (vec3f)
@@ -88,7 +88,7 @@ static inline vec3f vec3_div_component(vec3f vec1, vec3f vec2)
 }
 
 
-static inline vec3f vec3_div_scalar(vec3f vec1, float scalar)
+static inline vec3f vec3f_div_scalar(vec3f vec1, float scalar)
 {
 
          return (vec3f)
@@ -103,7 +103,7 @@ static inline vec3f vec3_div_scalar(vec3f vec1, float scalar)
 }
 
 
-static inline float vec3_length(vec3f vec)
+static inline float vec3f_length(vec3f vec)
 {
 
         return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
@@ -111,7 +111,7 @@ static inline float vec3_length(vec3f vec)
 }
 
 
-static inline float vec3_length_squared(vec3f vec)
+static inline float vec3f_length_squared(vec3f vec)
 {
 
         return vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
@@ -119,10 +119,10 @@ static inline float vec3_length_squared(vec3f vec)
 }
 
 
-static inline vec3f vec3_unit(vec3f vec)
+static inline vec3f vec3f_unit(vec3f vec)
 {
 
-        float length = vec3_length_squared(vec);
+        float length = vec3f_length_squared(vec);
 
 
         if (length < 0.0001f)
@@ -135,12 +135,12 @@ static inline vec3f vec3_unit(vec3f vec)
         float inv_length = 1.0f / sqrtf(length);
 
 
-        return vec3_mul_scalar(vec, inv_length);
+        return vec3f_mul_scalar(vec, inv_length);
 
 }
 
 
-static inline float vec3_dot(vec3f vec1, vec3f vec2)
+static inline float vec3f_dot(vec3f vec1, vec3f vec2)
 {
 
         return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
@@ -148,7 +148,7 @@ static inline float vec3_dot(vec3f vec1, vec3f vec2)
 }
 
 
-static inline vec3f vec3_cross(vec3f vec1, vec3f vec2)
+static inline vec3f vec3f_cross(vec3f vec1, vec3f vec2)
 {
 
         return (vec3f)
@@ -163,7 +163,7 @@ static inline vec3f vec3_cross(vec3f vec1, vec3f vec2)
 }
 
 
-static inline vec4f vec3_to_vec4(vec3f vec)
+static inline vec4f vec3f_to_vec4f(vec3f vec)
 {
 
         return (vec4f)
@@ -179,7 +179,7 @@ static inline vec4f vec3_to_vec4(vec3f vec)
 }
 
 
-static inline vec2f vec3_to_vec2(vec3f vec)
+static inline vec2f vec3f_to_vec2f(vec3f vec)
 {
 
         return (vec2f)
