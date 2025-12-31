@@ -4,10 +4,6 @@
 #
 
 
-#	much love ChatGPT
-#	I have no clue how Makefile works (kind of)
-
-
 CC      = gcc
 CFLAGS  = -Wall -Wextra -mconsole -std=c11 -g
 LDFLAGS = -luser32 -lgdi32 -lkernel32
@@ -43,4 +39,5 @@ clean:
 
 
 .PHONY: all clean
+
 
