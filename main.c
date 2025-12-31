@@ -53,6 +53,7 @@ int main(void)
 
 
         struct mesh mesh = { 0 };
+
         mesh.vertices_count = 4;
         mesh.indices_height = 2;
 
@@ -157,5 +158,6 @@ int main(void)
 
 
         return 0;
+
 
 }
