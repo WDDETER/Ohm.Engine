@@ -24,10 +24,10 @@ enum gfx_error painter_hire(struct painter* painter)
         painter->bit_map.bmiHeader.biHeight             = painter->pixels_height;
 
 
-        painter->painters_size = painter->pixels_width * painter->pixels_height;
-        painter->painters_sizebytes = painter->painters_size * sizeof(pixel);
+        painter->pixels_size = painter->pixels_width * painter->pixels_height;
+        painter->pixels_sizebytes = painter->pixels_size * sizeof(pixel);
 
-        painter->pixels = (pixel*)malloc(painter->painters_sizebytes);
+        painter->pixels = (pixel*)malloc(painter->pixels_sizebytes);
 
         if (!painter->pixels)
                 return PAINTER_FAILED_ALLOCATION;
@@ -64,15 +64,16 @@ void painter_line(struct painter* painter, int x1, int y1, int x2, int y2, color
         while (true) 
         {
 
-                painter->pixels[y1 * painter->pixels_width + x1] = (pixel)color.argb;
-
+                if (x1 >= 0 && x1 < painter->pixels_width && y1 >= 0 && y1 < painter->pixels_height)
+                        painter->pixels[y1 * painter->pixels_width + x1] = (pixel)color.argb;
 
                 int error_mul_2 = error * 2;
 
                 if (error_mul_2 >= diff_y)
                 {
 
-                        if (x1 == x2) break;
+                        if (x1 == x2)
+                                break;
 
                         error += diff_y;
                         x1 += side_x;
@@ -82,8 +83,8 @@ void painter_line(struct painter* painter, int x1, int y1, int x2, int y2, color
                 if (error_mul_2 <= diff_x)
                 {
 
-                        if (y1 == y2) break;
-
+                        if (y1 == y2)
+                                break;
 
                         error += diff_x;
 

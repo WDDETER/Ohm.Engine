@@ -13,10 +13,14 @@
 
 #include "gfx_error.h"
 #include "vec4_helper.h"
+#include "mat4_helper.h"
 
 
 #define VERTEX_SIZE 9
 #define INDICE_SIZE 3
+
+#define VERTEX_W_MINIMUM        0.01f
+#define VERTEX_W_HEALTHY(w)     (w > VERTEX_W_MINIMUM)
 
 
 struct vertex
@@ -42,24 +46,9 @@ struct mesh
 };
 
 
-enum gfx_error  mesh_hire(struct mesh* mesh);
-void            mesh_fire(struct mesh* mesh);
-
-
-// this is kind of ad-hoc in my opinion, but it gets it done
-// first 3 word function too
-static inline bool mesh_triangle_offscreen(vec4f position1, vec4f position2, vec4f position3, int width, int height)
-{
-
-        if (position1.x < 0 && position2.x < 0 && position3.x < 0)                      return true;
-        if (position1.x >= width && position2.x >= width && position3.x >= width)       return true;
-        if (position1.y < 0 && position2.y < 0 && position3.y < 0)                      return true;
-        if (position1.y >= height && position2.y >= height && position3.y >= height)    return true;
-
-
-        return false;
-
-}
+enum gfx_error  mesh_hire       (struct mesh* mesh);
+void            mesh_fire       (struct mesh* mesh);
+void            mesh_wireframe  (struct painter* painter, struct mesh* mesh, mat4f mvp, color32i wireframe_color);
 
 
 #endif

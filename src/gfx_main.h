@@ -40,7 +40,7 @@ struct painter
 {
 
         pixel*          pixels;
-        int             pixels_width, pixels_height, painters_size, painters_sizebytes;
+        int             pixels_width, pixels_height, pixels_size, pixels_sizebytes;
 
 
         BITMAPINFO      bit_map;
@@ -71,7 +71,7 @@ static inline void painter_present(struct painter* painter, struct window* windo
 
 
         // !REMINDER: swap for SIMD filling later
-        for (int i = 0; i < painter->painters_size; i++)
+        for (int i = 0; i < painter->pixels_size; i++)
         {
 
                 painter->pixels[i] = clear_color.argb;

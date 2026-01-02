@@ -12,7 +12,7 @@
 #include "mat4_helper.h"
 
 
-struct projf
+struct projection
 {
 
         float fov_rad, aspect, near_z, far_z;
@@ -20,6 +20,9 @@ struct projf
         mat4f perspective;
 
 };
+
+
+mat4f projection_perspective(float fov_rad, float aspect, float near_z, float far_z);
 
 
 static inline vec4f projection_screenspace(vec4f position, int width, int height)

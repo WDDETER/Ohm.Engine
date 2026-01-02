@@ -5,11 +5,15 @@
 
 
 //      Example file for testing.
+//      Do NOT expect super clean structure, this is only for testing tech.
 
 
 #include "win_main.h"
 #include "gfx_main.h"
 #include "gfx_mesh.h"
+
+#include "win_input.h"
+#include "win_time.h"
 
 #include "proj_helper.h"
 #include "cam_helper.h"
@@ -23,6 +27,8 @@
 
 int main(void)
 {
+
+        struct clock clock = clock_hire();
 
         struct window window    = { 0 };
 
@@ -38,7 +44,7 @@ int main(void)
 
         window_center   (&window);
         window_hire     (&window);
-
+        
 
         struct painter painter  = { 0 };
 
@@ -70,25 +76,25 @@ int main(void)
         color32i clear_color    = { 0 };
         color32i line_color     = { 0 };
         line_color.a = 0xFF;
-        line_color.r = 0xFF;
+        line_color.r = 0x00;
         line_color.g = 0xFF;
         line_color.b = 0xFF;
 
 
-        struct projf projf      = { 0 };
-        projf.fov_rad           = RADF_TO_DEGF(70.0f);
-        projf.aspect            = 320.0f / 240.0f;
-        projf.near_z            = 1.0f;
-        projf.far_z             = 1000.0f;
+        struct projection proj          = { 0 };
+        proj.fov_rad                    = DEG_TO_RAD(90.0f);
+        proj.aspect                     = 320.0f / 240.0f;
+        proj.near_z                     = 0.5f;
+        proj.far_z                      = 1000.0f;
 
-        struct camf camf        = { 0 };
-        camf.eye.x              = 0.0f; camf.eye.y            = 0.0f; camf.eye.z            = 0.0f;
-        camf.target.x           = 0.0f; camf.target.y         = 0.0f; camf.target.z         = -5.0f;
-        camf.up.x               = 0.0f; camf.up.y             = 1.0f; camf.up.z             = 0.0f;
+        struct camera cam               = { 0 };
+        cam.eye.x                       = 0.0f; cam.eye.y            = 0.0f; cam.eye.z            = 0.0f;
+        cam.target.x                    = 0.0f; cam.target.y         = 0.0f; cam.target.z         = 5.0f;
+        cam.up.x                        = 0.0f; cam.up.y             = 1.0f; cam.up.z             = 0.0f;
 
-        struct tranf tranf      = { 0 };
-        tranf.translate         = mat4f_translate(0.0f, 0.0f, -5.0f);
-        tranf.scale             = mat4f_scale(1.0f, 2.0f, 1.0f);
+        struct transform tran           = { 0 };
+        tran.translate                  = transform_translate   (0.0f, 0.0f, 5.0f);
+        tran.scale                      = transform_scale       (1.0f, 1.0f, 1.0f);
 
         vec3f angles = { 0 };
 
@@ -96,54 +102,54 @@ int main(void)
         while (window.is_running)
         {
 
-                window_pump(&window, 0, 0);
-
-                angles.x += 0.0001f;
-                angles.y += 0.0001f;
-                angles.z += 0.0001f;
-
-                tranf.rotate_x = mat4f_rotate_x(angles.x);
-                tranf.rotate_y = mat4f_rotate_y(angles.y);
-                tranf.rotate_z = mat4f_rotate_z(angles.z);
-
-                tranf.rotation  = MAT4_MULITPLY_ORDER(tranf.rotate_x, tranf.rotate_y, tranf.rotate_z);
-                tranf.transform = MAT4_MULITPLY_ORDER(tranf.scale, tranf.rotation, tranf.translate);
-
-                camf.view               = mat4f_cam_lookat      (camf.forward, camf.right, camf.up, camf.eye, camf.target);
-                projf.perspective       = mat4f_proj_perspective(projf.fov_rad, projf.aspect, projf.near_z, projf.far_z);
-
-                mat4f mvp = MAT4_MULITPLY_ORDER(tranf.transform, camf.view, projf.perspective)
+                window_pump     (&window, 0, 0);
+                clock_tick      (&clock);
 
 
-                for (int i = 0; i < mesh.indices_size; i += 3)
-                {
+                vec3f move_dir          = { 0 };
 
-                        struct vertex v0 = mesh.vertices[mesh.indices[i]];
-                        struct vertex v1 = mesh.vertices[mesh.indices[i + 1]];
-                        struct vertex v2 = mesh.vertices[mesh.indices[i + 2]];
+                vec3f forward_dir_xz    = { .x = cam.forward.x, .y = 0.0f, .z = cam.forward.z };
+                vec3f right_dir_xz      = { .x = cam.right.x, .y = 0.0f, .z = cam.right.z };
 
-                        v0.position = vec4f_mul_mat4f(v0.position, mvp);
-                        v1.position = vec4f_mul_mat4f(v1.position, mvp);
-                        v2.position = vec4f_mul_mat4f(v2.position, mvp);
+                if (window_key_held('W')) move_dir = vec3f_add(move_dir, forward_dir_xz);
+                if (window_key_held('S')) move_dir = vec3f_sub(move_dir, forward_dir_xz);
+                if (window_key_held('A')) move_dir = vec3f_sub(move_dir, right_dir_xz);
+                if (window_key_held('D')) move_dir = vec3f_add(move_dir, right_dir_xz);
 
-                        v0.position = vec4f_div_scalar(v0.position, v0.position.w);
-                        v1.position = vec4f_div_scalar(v1.position, v1.position.w);
-                        v2.position = vec4f_div_scalar(v2.position, v2.position.w);
+                if (window_key_held('E')) cam.eye.y += 5.0f * clock.delta_time;
+                if (window_key_held('Q')) cam.eye.y -= 5.0f * clock.delta_time;
 
-                        v0.position = projection_screenspace(v0.position, painter.pixels_width, painter.pixels_height);
-                        v1.position = projection_screenspace(v1.position, painter.pixels_width, painter.pixels_height);
-                        v2.position = projection_screenspace(v2.position, painter.pixels_width, painter.pixels_height);
+                if (vec3f_length_squared(move_dir) > 0.0f)
+                        move_dir = vec3f_unit(move_dir);
 
-                        bool offscreen = mesh_triangle_offscreen(v0.position, v1.position, v2.position, painter.pixels_width, painter.pixels_height);
+                cam.eye        = vec3f_add(cam.eye, vec3f_mul_scalar(move_dir, 6.0f * clock.delta_time));
+                cam.target     = vec3f_add(cam.target, vec3f_mul_scalar(move_dir, 6.0f * clock.delta_time));
 
-                        if (offscreen)
-                                continue;
 
-                        painter_line(&painter, v0.position.x, v0.position.y, v1.position.x, v1.position.y, line_color);
-                        painter_line(&painter, v0.position.x, v0.position.y, v2.position.x, v2.position.y, line_color);
-                        painter_line(&painter, v1.position.x, v1.position.y, v2.position.x, v2.position.y, line_color);
+                vec3f up_new = camera_angles(&cam.forward, &cam.right, cam.up, cam.angles);
 
-                }
+                if (window_key_held(VK_LEFT))   cam.angles.x -= 3.0f * clock.delta_time;
+                if (window_key_held(VK_RIGHT))  cam.angles.x += 3.0f * clock.delta_time;
+
+                cam.target = vec3f_add(cam.eye, cam.forward);
+
+
+                cam.view                = camera_lookat         (&cam.forward, &cam.right, up_new, cam.eye, cam.target);
+                proj.perspective        = projection_perspective(proj.fov_rad, proj.aspect, proj.near_z, proj.far_z);
+
+
+                angles.x += 2.0f * clock.delta_time;
+                angles.y += 2.0f * clock.delta_time;
+                angles.z += 2.0f * clock.delta_time;
+
+                tran.rotate_x           = transform_rotate_x            (angles.x);
+                tran.rotate_y           = transform_rotate_y            (angles.y);
+                tran.rotate_z           = transform_rotate_z            (angles.z);
+                tran.rotation           = MAT4_MULITPLY_ORDER           (tran.rotate_x, tran.rotate_y, tran.rotate_z);
+                tran.transform          = MAT4_MULITPLY_ORDER           (tran.scale, tran.rotation, tran.translate);
+                mat4f mvp               = MAT4_MULITPLY_ORDER           (tran.transform, cam.view, proj.perspective);
+
+                mesh_wireframe(&painter, &mesh, mvp, line_color);
 
 
                 painter_present(&painter, &window, clear_color);

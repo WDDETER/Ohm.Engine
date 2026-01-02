@@ -12,14 +12,18 @@
 #include "vec_types.h"
 
 
-struct camf
+struct camera
 {
 
-        vec3f eye, target, up, right, forward;
+        vec3f eye, target, up, right, forward, angles;
 
         mat4f view;
 
 };
+
+
+mat4f   camera_lookat(vec3f* forward, vec3f* right, vec3f up, vec3f eye, vec3f target);
+vec3f   camera_angles(vec3f* forward, vec3f* right, vec3f up, vec3f angles);
 
 
 #endif
