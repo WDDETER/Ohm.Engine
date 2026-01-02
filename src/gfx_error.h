@@ -1,5 +1,5 @@
 //
-//      gfx_error.h  (28/25/2025)
+//      gfx_error.h  (12/28/2025)
 //      by Jaidev Bormann
 //
 
@@ -20,6 +20,7 @@ enum gfx_error
         MESH_INDICES_FAILED_ALLOCATION
 
 };
+
 
 
 #endif
