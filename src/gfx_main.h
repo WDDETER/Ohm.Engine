@@ -1,0 +1,84 @@
+//
+//      gfx_main.h  (12/28/2025)
+//      by Jaidev Bormann
+//
+
+
+#ifndef _OHM_GFX_MAIN_H
+#define _OHM_GFX_MAIN_H
+
+
+#include <stdint.h>
+
+#include "win_main.h"
+#include "gfx_error.h"
+
+
+#define PAINTER_DEF_BIT_COUNT           32
+#define PAINTER_DEF_BIT_PLANES          1
+#define PAINTER_DEF_BIT_COMPRESSION     BI_RGB
+
+#define BLIT_USAGE                      DIB_RGB_COLORS
+#define BLIT_ROP                        SRCCOPY
+
+
+typedef uint32_t pixel;
+
+
+typedef union color32i
+{
+
+        uint32_t argb;
+
+
+        struct { uint8_t b, g, r, a; };
+
+} color32i;
+
+
+struct painter
+{
+
+        pixel*          pixels;
+        int             pixels_width, pixels_height, pixels_size, pixels_sizebytes;
+
+
+        BITMAPINFO      bit_map;
+        DWORD           bit_compression;
+        WORD            bit_count, bit_planes;
+
+};
+
+
+enum gfx_error  painter_hire(struct painter* painter);
+void            painter_fire(struct painter* painter);
+void            painter_line(struct painter* painter, int x1, int y1, int x2, int y2, color32i color);
+
+
+static inline void painter_present(struct painter* painter, struct window* window, color32i clear_color)
+{
+
+        StretchDIBits
+        (
+
+                window->device_context_handle,
+                0, 0, window->width, window->height,
+                0, 0, painter->pixels_width, painter->pixels_height,
+                painter->pixels, &painter->bit_map,
+                BLIT_USAGE, BLIT_ROP
+
+        );
+
+
+        // !REMINDER: swap for SIMD filling later
+        for (int i = 0; i < painter->pixels_size; i++)
+        {
+
+                painter->pixels[i] = clear_color.argb;
+
+        }
+
+}
+
+
+#endif
